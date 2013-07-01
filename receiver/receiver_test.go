@@ -70,6 +70,14 @@ func TestReceiver(t *testing.T) {
 				testBucket("b", "", "u", "p", currentTime, time.Minute, []float64{2}),
 			},
 		},
+		{
+			"log runtime metrics",
+			opts,
+			fmtLog(currentTime, "web.1", "source=heroku.2808254.web.1.d97d0ea7-cf3d-411b-b453-d2943a50b456 measure=memory_rss val=21.22 units=MB"),
+			[]*bucket.Bucket{
+				testBucket("memory_rss", "", "u", "p", currentTime, time.Minute, []float64{21.22}),
+			},
+		},
 	}
 
 	for i := range cases {
@@ -113,6 +121,7 @@ func fmtLog(t time.Time, procid, msg string) []byte {
 	packet := fmt.Sprintf(layout,
 		prival, version, timestamp, hostname, appname, procid, msgid, msg)
 	result := fmt.Sprintf("%d %s", len(packet), packet)
+	fmt.Printf("%s\n", result)
 	return []byte(result)
 }
 
