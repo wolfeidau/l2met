@@ -103,6 +103,7 @@ func parseMetrics(out chan *Bucket, opts Options, header *lpx.Header, tups tuple
 		id.User = opts["user"][0]
 		id.Pass = opts["password"][0]
 		id.Name = buildPrefix(opts, tups[i].String())
+		id.Source = string(header.Procid)
 		val, err := tups.Value()
 		if err != nil {
 			continue
