@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/kr/logfmt"
 	"strconv"
+	"strings"
 )
 
 type logTuple struct {
@@ -77,6 +78,21 @@ func (t *tuples) Metric() string {
 	for i := range *t {
 		if bytes.Equal((*t)[i].Key, []byte("measure")) {
 			return (*t)[i].String()
+		}	
+	}
+	return ""
+}
+
+func (t *tuples) MetricSource() string {
+	// The log-runtime-metrics source attribute contains extra information which
+	// changes whenever the dyno is restarted, we need to strip this away to leave
+	// the dyno name.
+	for i := range *t {
+		if bytes.Equal((*t)[i].Key, []byte("source")) {
+			tokens := strings.Split((*t)[i].String(), ".")
+			if len(tokens) == 5 {
+				return strings.Join(tokens[2:4], ".")
+			}
 		}	
 	}
 	return ""
