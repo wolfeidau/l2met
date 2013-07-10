@@ -71,7 +71,7 @@ func parseHkRouter(out chan *Bucket, opts Options, header *lpx.Header, tups tupl
 		id.User = opts["user"][0]
 		id.Pass = opts["password"][0]
 		id.Source = tups.Source()
-		id.Units = tups[i].Units()
+		//id.Units = tups[i].Units()
 
 		switch tups[i].Name() {
 		case "bytes":
