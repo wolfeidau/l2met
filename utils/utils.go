@@ -6,16 +6,17 @@ import (
 	"l2met/conf"
 	"net/http"
 	"time"
+	"log"
 )
 
 func MeasureI(name, units string, val int64) {
 	m := conf.AppName + "." + name
-	fmt.Printf("measure.%s=%d\n", m, val)
+	log.Printf("measure.%s=%d\n", m, val)
 }
 
 func MeasureT(name string, t time.Time) {
 	m := conf.AppName + "." + name
-	fmt.Printf("measure.%s=%dms\n", m, time.Since(t)/time.Millisecond)
+	log.Printf("measure.%s=%dms\n", m, time.Since(t)/time.Millisecond)
 }
 
 func WriteJsonBytes(w http.ResponseWriter, status int, b []byte) {
